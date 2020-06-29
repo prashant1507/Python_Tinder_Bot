@@ -54,21 +54,21 @@ class TinderBot():
                 self.like()
             except Exception:
                 try:
-                    self.close_match()
+                    self.close_all_likes_exhausted_popup()
                 except Exception:
                     try:
-                        self.close_all_likes_exhausted()
+                        self.close_add_interest_popup()
                     except Exception:
-                        self.close_popup()
-
-    def close_popup(self):
-        popup_3 = self.driver.find_element_by_xpath('//*[@id="modal-manager"]/div/div/div[2]/button[2]')
-        popup_3.click()
+                        self.close_match()
 
     def close_match(self):
         match_popup = self.driver.find_element_by_xpath('//*[@id="modal-manager-canvas"]/div/div/div[1]/div/div[3]/a')
         match_popup.click()
 
-    def close_all_likes_exhausted(self):
+    def close_all_likes_exhausted_popup(self):
         no_thanks_btn = self.driver.find_element_by_xpath('//span[text()=\'No Thanks\']')
         no_thanks_btn.click()
+
+    def close_add_interest_popup(self):
+        not_interested_lnk = self.driver.find_element_by_xpath('//span[text()=\'Not interested\']')
+        not_interested_lnk.click()
