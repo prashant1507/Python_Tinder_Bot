@@ -80,7 +80,10 @@ class TinderBot:
                     try:
                         self.close_match()
                     except Exception:
-                        self.close_all_likes_exhausted_popup()
+                        try:
+                            self.close_all_likes_exhausted_popup()
+                        except Exception:
+                            self.driver.refresh()
 
     def close_match(self):
         match_popup = self.driver.find_element_by_xpath('//*[@id="modal-manager-canvas"]/div/div/div[1]/div/div[3]/a')
@@ -94,3 +97,22 @@ class TinderBot:
         not_interested_lnk = self.driver.find_element_by_xpath('//span[text()=\'Not interested\']')
         not_interested_lnk.click()
 
+    def unmatch_first_match(self):
+        unmatch_tab = self.driver.find_element_by_xpath('//button[text()=\'Messages\']')
+        unmatch_tab.click()
+
+        first_msg_tab = self.driver.find_element_by_xpath('//div[@class=\'messageList\']/a[1]')
+        first_msg_tab.click()
+
+        unmatch_btn = self.driver.find_element_by_xpath('//span[text()=\'Unmatch\']')
+        unmatch_btn.click()
+
+        no_reason_option = self.driver.find_element_by_xpath(' //div[text()=\'No Reason\']')
+        no_reason_option.click()
+
+        unmatch_confirm_btn = self.driver.find_element_by_xpath('(//button/span[text()=\'Unmatch\'])[2]')
+        unmatch_confirm_btn.click()
+       
+
+    def close_email_verification_popup(self):
+        print()
