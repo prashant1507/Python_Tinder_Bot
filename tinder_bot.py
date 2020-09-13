@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 from time import sleep
 import random
 
@@ -20,6 +21,7 @@ class TinderBot:
 
     def launch_url(self):
         self.driver.get('https://tinder.com')
+        self.driver.maximize_window()
 
     def login(self):
         
@@ -52,7 +54,7 @@ class TinderBot:
         popup_2.click()
 
     def like(self):
-        like_btn = self.driver.find_element_by_xpath('//button[@aria-label=\'Like\']/span')
+        like_btn = self.driver.find_element_by_xpath('//button[@aria-label=\'Like\']')
         like_btn.click()
         self.right_counter = self.right_counter + 1
         self.counter = self.counter + 1
@@ -104,13 +106,13 @@ class TinderBot:
         first_msg_tab = self.driver.find_element_by_xpath('//div[@class=\'messageList\']/a[1]')
         first_msg_tab.click()
 
-        unmatch_btn = self.driver.find_element_by_xpath('//span[text()=\'Unmatch\']')
+        unmatch_btn = self.driver.find_element_by_xpath('//button[text()=\'Unmatch\']')
         unmatch_btn.click()
 
-        no_reason_option = self.driver.find_element_by_xpath(' //div[text()=\'No Reason\']')
+        no_reason_option = self.driver.find_element_by_xpath('//div[text()=\'No Reason\']')
         no_reason_option.click()
 
-        unmatch_confirm_btn = self.driver.find_element_by_xpath('(//button/span[text()=\'Unmatch\'])[2]')
+        unmatch_confirm_btn = self.driver.find_element_by_xpath('//button/span[text()=\'Unmatch\']')
         unmatch_confirm_btn.click()
        
 
