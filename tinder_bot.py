@@ -16,8 +16,7 @@ class TinderBot:
     def clean_up(self):
         self.driver = webdriver.Chrome(executable_path=self.chromedriver_path)
         self.driver.implicitly_wait(15)
-        self.driver.get('chrome://settings/clearBrowserData')
-        self.driver.find_element_by_xpath('//settings-ui').send_keys(Keys.ENTER)
+        self.driver.delete_all_cookies()
 
     def launch_url(self):
         self.driver.get('https://tinder.com')
@@ -28,6 +27,10 @@ class TinderBot:
         i_accept_btn = self.driver.find_element_by_xpath('//button/span[text()=\'I Accept\']')
         i_accept_btn.click()
         
+        sleep(4)
+        login_btn = self.driver.find_element_by_xpath('//button/span[text()=\'Log in\']')
+        login_btn.click()
+
         sleep(4)
         fb_btn = self.driver.find_element_by_xpath('//span[text()=\'Log in with Facebook\']')
         fb_btn.click()
@@ -54,7 +57,7 @@ class TinderBot:
         popup_2.click()
 
     def like(self):
-        like_btn = self.driver.find_element_by_xpath('//button[@aria-label=\'Like\']')
+        like_btn = self.driver.find_element_by_xpath('//button//span[text()=\'Like\']/..')
         like_btn.click()
         self.right_counter = self.right_counter + 1
         self.counter = self.counter + 1
@@ -65,14 +68,14 @@ class TinderBot:
             self.counter = 0
 
     def dislike(self):
-        dislike_btn = self.driver.find_element_by_xpath('//button[@aria-label=\'Nope\']')
+        dislike_btn = self.driver.find_element_by_xpath('//button//span[text()=\'Nope\']/..')
         dislike_btn.click()
         self.left_counter = self.left_counter + 1
         print ("Left Swipe: "+str(self.left_counter))
 
     def auto_swipe(self):
         while True:
-            sleep(random.randint(3, 6))
+            sleep(random.randint(2, 6))
             try:
                 self.like()
             except Exception:
@@ -85,7 +88,10 @@ class TinderBot:
                         try:
                             self.close_all_likes_exhausted_popup()
                         except Exception:
-                            self.driver.refresh()
+                            try:
+                                self.send_super_like_popup()
+                            except Exception:
+                                    self.driver.refresh()
 
     def close_match(self):
         match_popup = self.driver.find_element_by_xpath('//*[@id="modal-manager-canvas"]/div/div/div[1]/div/div[3]/a')
@@ -115,6 +121,9 @@ class TinderBot:
         unmatch_confirm_btn = self.driver.find_element_by_xpath('//button/span[text()=\'Unmatch\']')
         unmatch_confirm_btn.click()
        
+    def send_super_like_popup(self):
+        no_thanks_btn = self.driver.find_element_by_xpath('//button/span[text()=\'No Thanks\']')
+        no_thanks_btn.click()
 
     def close_email_verification_popup(self):
         print()
